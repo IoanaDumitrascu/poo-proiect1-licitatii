@@ -8,51 +8,64 @@
 #include <iostream>
 #include <cstring>
 
-class Candidat {
+class Candidat
+{
 private:
     char* nume;     /// numele candidatului alocat dinamic
     double buget;   /// suma maxima de care dispune candidatul
 
 public:
     /// Constructor implicit
-    Candidat() {
+    Candidat()
+    {
         this->nume = NULL;
         this->buget = 0;
     }
 
     /// Constructor de initializare
-    Candidat(const char* n, double b) {
-        if (n) {
+    Candidat(const char* n, double b)
+    {
+        if (n)
+        {
             this->nume = new char[strlen(n) + 1];
             strcpy(this->nume, n);
-        } else this->nume = NULL;
+        }
+        else this->nume = NULL;
         this->buget = b;
     }
 
     /// Constructor de copiere
-    Candidat(const Candidat& sursa) {
-        if (sursa.nume) {
+    Candidat(const Candidat& sursa)
+    {
+        if (sursa.nume)
+        {
             this->nume = new char[strlen(sursa.nume) + 1];
             strcpy(this->nume, sursa.nume);
-        } else this->nume = NULL;
+        }
+        else this->nume = NULL;
         this->buget = sursa.buget;
     }
 
-    /// Operator de atribuire gestioneaza realocarea memoriei la copiere
-    Candidat& operator=(const Candidat& sursa) {
-        if (this != &sursa) {
+    /// Operator de atribuire
+    Candidat& operator=(const Candidat& sursa)
+    {
+        if (this != &sursa)
+        {
             if (this->nume) delete[] this->nume; /// eliberare memorie veche
-            if (sursa.nume) {
+            if (sursa.nume)
+            {
                 this->nume = new char[strlen(sursa.nume) + 1];
                 strcpy(this->nume, sursa.nume);
-            } else this->nume = NULL;
+            }
+            else this->nume = NULL;
             this->buget = sursa.buget;
         }
         return *this;
     }
 
     /// Destructor - elibereaza memoria ocupata de nume
-    ~Candidat() {
+    ~Candidat()
+    {
         if (this->nume) delete[] this->nume;
     }
 
@@ -61,7 +74,8 @@ public:
     double getBuget() const { return this->buget; }
 
     /// Operator>> pentru citirea de la tastatura fara std::string
-    friend std::istream& operator>>(std::istream& in, Candidat& c) {
+    friend std::istream& operator>>(std::istream& in, Candidat& c)
+    {
         char buffer[100]; /// buffer temporar pentru citirea numelui
         std::cout << "Introduceti numele candidatului: ";
         in >> buffer;
@@ -76,14 +90,16 @@ public:
     }
 
     /// Operator<< pentru afisarea detaliilor candidatului
-    friend std::ostream& operator<<(std::ostream& out, const Candidat& c) {
+    friend std::ostream& operator<<(std::ostream& out, const Candidat& c)
+    {
         out << "Candidat: " << (c.nume ? c.nume : "Anonim") << " | Buget: " << c.buget;
         return out;
     }
 };
 
 
-class Oferta {
+class Oferta
+{
 private:
     char* numeOfertant; /// numele celui care a facut oferta
     double suma;        /// valoarea oferita
@@ -93,11 +109,14 @@ public:
     Oferta() : numeOfertant(NULL), suma(0) {}
 
     /// Constructor de initializare
-    Oferta(const char* n, double s) {
-        if (n) {
+    Oferta(const char* n, double s)
+    {
+        if (n)
+        {
             this->numeOfertant = new char[strlen(n) + 1];
             strcpy(this->numeOfertant, n);
-        } else this->numeOfertant = NULL;
+        }
+        else this->numeOfertant = NULL;
         this->suma = s;
     }
 
@@ -105,22 +124,29 @@ public:
     ~Oferta() { if (this->numeOfertant) delete[] this->numeOfertant; }
 
     /// Constructor de copiere
-    Oferta(const Oferta& o) {
-        if (o.numeOfertant) {
+    Oferta(const Oferta& o)
+    {
+        if (o.numeOfertant)
+        {
             this->numeOfertant = new char[strlen(o.numeOfertant) + 1];
             strcpy(this->numeOfertant, o.numeOfertant);
-        } else this->numeOfertant = NULL;
+        }
+        else this->numeOfertant = NULL;
         this->suma = o.suma;
     }
 
     /// Operator de atribuire
-    Oferta& operator=(const Oferta& o) {
-        if (this != &o) {
+    Oferta& operator=(const Oferta& o)
+    {
+        if (this != &o)
+        {
             if (this->numeOfertant) delete[] this->numeOfertant;
-            if (o.numeOfertant) {
+            if (o.numeOfertant)
+            {
                 this->numeOfertant = new char[strlen(o.numeOfertant) + 1];
                 strcpy(this->numeOfertant, o.numeOfertant);
-            } else this->numeOfertant = NULL;
+            }
+            else this->numeOfertant = NULL;
             this->suma = o.suma;
         }
         return *this;
@@ -131,7 +157,8 @@ public:
     const char* getAutor() const { return this->numeOfertant; }
 };
 
-class Licitatie {
+class Licitatie
+{
 private:
     char* titlu;            /// titlul obiectului licitat
     Oferta* istoricOferte;  /// vector de oferte alocat dinamic
@@ -141,7 +168,8 @@ private:
     static int nrTotalOfertanti; /// atribut static: numara ofertele acceptate global
 
     /// Metoda privata pentru validarea regulilor licitatiei
-    bool validare(const Candidat& c, double s) const {
+    bool validare(const Candidat& c, double s) const
+    {
         if (s <= this->pretMinim) return false; /// sub pretul de pornire
         if (s > c.getBuget()) return false;     /// depaseste bugetul candidatului
         if (this->nrOferte > 0 && s <= this->istoricOferte[this->nrOferte - 1].getSuma()) return false; /// mai mica decat oferta precedenta
@@ -150,7 +178,8 @@ private:
 
 public:
     /// Constructor de initializare
-    Licitatie(const char* t, double p) {
+    Licitatie(const char* t, double p)
+    {
         this->titlu = new char[strlen(t) + 1];
         strcpy(this->titlu, t);
         this->pretMinim = p;
@@ -159,14 +188,17 @@ public:
     }
 
     /// Destructor
-    ~Licitatie() {
+    ~Licitatie()
+    {
         if (this->titlu) delete[] this->titlu;
         if (this->istoricOferte) delete[] this->istoricOferte;
     }
 
-    /// Metoda principala: adaugarea unei oferte prin realocare dinamica
-    void adaugaBid(const Candidat& c, double s) {
-        if (!validare(c, s)) {
+    /// fct- adaugarea unei oferte prin realocare dinamica
+    void adaugaBid(const Candidat& c, double s)
+    {
+        if (!validare(c, s))
+        {
             std::cout << "[REJECT] Oferta lui " << c.getNume() << " de " << s << " nu e buna.\n";
             return;
         }
@@ -176,7 +208,8 @@ public:
         /// Incepe procesul de realocare dinamica
         Oferta* temp = new Oferta[this->nrOferte + 1]; /// alocam spatiu nou (n+1)
 
-        for (int i = 0; i < this->nrOferte; i++) {
+        for (int i = 0; i < this->nrOferte; i++)
+        {
             temp[i] = this->istoricOferte[i]; /// copiem ofertele vechi
         }
 
@@ -191,22 +224,25 @@ public:
     }
 
     /// Functie statica pentru accesarea contorului global
-    static int getNrTotalOfertanti() {
+    static int getNrTotalOfertanti()
+    {
         return nrTotalOfertanti;
     }
 
     /// Afisarea rezultatului final al licitatiei
-    void afisareFinala() const {
+    void afisareFinala() const
+    {
         std::cout << "\n----------------------------------\n";
         std::cout << "LICITATIE: " << this->titlu << "\n";
-        if (this->nrOferte == 0) {
+        if (this->nrOferte == 0)
             std::cout << "Rezultat: Nicio oferta acceptata.\n";
-        } else {
+        else
+        {
             const Oferta& finala = this->istoricOferte[this->nrOferte - 1];
             std::cout << "CASTIGATOR: " << finala.getAutor() << "\n";
             std::cout << "PRET FINAL: " << finala.getSuma() << " EUR\n";
         }
-        std::cout << "Statistica: " << Licitatie::nrTotalOfertanti << " bid-uri reusite pana acum.\n";
+        std::cout << "Statistica: " << Licitatie::nrTotalOfertanti << " oferte reusite pana acum.\n";
         std::cout << "----------------------------------\n";
     }
 };
@@ -214,7 +250,8 @@ public:
 /// Initializarea membrului static
 int Licitatie::nrTotalOfertanti = 0;
 
-int main() {
+int main()
+{
     Licitatie lic("Geanta vintage", 5000.0);
     Candidat c1, c2;
 
