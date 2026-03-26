@@ -121,7 +121,10 @@ public:
     }
 
     /// Destructor
-    ~Oferta() { if (this->numeOfertant) delete[] this->numeOfertant; }
+    ~Oferta() 
+     { 
+        if (this->numeOfertant) delete[] this->numeOfertant; 
+     }
 
     /// Constructor de copiere
     Oferta(const Oferta& o)
