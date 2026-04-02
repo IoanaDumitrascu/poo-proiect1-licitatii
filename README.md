@@ -1,6 +1,9 @@
 Proiect POO - Tema Licitatii
+
 Student: Dumitrascu Ioana Alexandra
+
 Grupa: 132
+
 Descrierea proiectului:
 Programul gestioneaza procesul de licitare pentru diverse obiecte. Acesta permite adaugarea de candidati cu un anumit buget si depunerea de oferte. Sistemul verifica automat daca ofertele sunt valide (daca suma este mai mare decat oferta precedenta si daca persoana are banii necesari).
 
